@@ -2,6 +2,7 @@ import React from 'react'
 import { Dimensions } from 'react-native'
 
 import styled from 'styled-components/native'
+import {useSpring, animated} from 'react-spring'
 
 const Container = styled.View`
 	padding: 20px 0;
