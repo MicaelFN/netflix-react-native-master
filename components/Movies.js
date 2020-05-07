@@ -25,6 +25,7 @@ const MoviePoster = styled.Image`
 const MovieCard = styled.View`
 	padding-right: 9px;
 `
+const animatedMoviePoster = animated(MoviePoster);
 
 const Movies = ({ label, item }) => {
 	return (
