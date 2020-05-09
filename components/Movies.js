@@ -32,11 +32,12 @@ const Movies = ({ label, item }) => {
 	const [pressedIn, setPressedIn] = useState({pressedIn: false, item: null});
 	const props = useSpring({
 		to: {
-			width: pressedIn.pressedIn ? Math.round((Dimensions.get('window').width * 50) / 100) :
-			Math.round((Dimensions.get('window').width * 28) / 100)
+			width: Math.round((Dimensions.get('window').width * 50) / 100),
+			height:200
 		},
 		from: {
-			width: Math.round((Dimensions.get('window').width * 28) / 100)
+			width: Math.round((Dimensions.get('window').width * 28) / 100),
+			height: 150
 		},
 		config: {
 			duration:1000,
@@ -55,7 +56,7 @@ const Movies = ({ label, item }) => {
 						<MovieCard key={String(item)}>
 							<TouchableWithoutFeedback
 								onPressOut={() => {
-									setPressedIn({pressedIn: false, item : item});
+									setPressedIn({pressedIn: false, item : null});
 								}}
 								onPressIn={() => {
 									setPressedIn({pressedIn: true, item : item})
