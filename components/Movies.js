@@ -1,8 +1,7 @@
-import React from 'react'
-import { Dimensions } from 'react-native'
-
+import React,{useState} from 'react'
+import { Dimensions,TouchableWithoutFeedback } from 'react-native'
 import styled from 'styled-components/native'
-import {useSpring, animated} from 'react-spring'
+import {useSpring, animated, config} from 'react-spring'
 
 const Container = styled.View`
 	padding: 20px 0;
@@ -25,9 +24,28 @@ const MoviePoster = styled.Image`
 const MovieCard = styled.View`
 	padding-right: 9px;
 `
-const animatedMoviePoster = animated(MoviePoster);
+const ΑnimatedMoviePoster = animated(MoviePoster);
+
 
 const Movies = ({ label, item }) => {
+
+	const [pressedIn, setPressedIn] = useState({pressedIn: false, item: null});
+	const props = useSpring({
+		to: {
+			width: pressedIn.pressedIn ? Math.round((Dimensions.get('window').width * 50) / 100) :
+			Math.round((Dimensions.get('window').width * 28) / 100)
+		},
+		from: {
+			width: Math.round((Dimensions.get('window').width * 28) / 100)
+		},
+		config: {
+			duration:1000,
+			friction: 10,
+			tension:500,
+			mass: 200
+		},
+	})
+
 	return (
 		<Container>
 			<Label>{label}</Label>
@@ -35,7 +53,17 @@ const Movies = ({ label, item }) => {
 				{item.map((movie, item) => {
 					return (
 						<MovieCard key={String(item)}>
-							<MoviePoster resizeMode='cover' source={movie} />
+							<TouchableWithoutFeedback
+								onPressOut={() => {
+									setPressedIn({pressedIn: false, item : item});
+								}}
+								onPressIn={() => {
+									setPressedIn({pressedIn: true, item : item})
+								}}
+							>
+								<ΑnimatedMoviePoster style={pressedIn.item === item ? props : null} resizeMode='cover' source={movie} />
+							</TouchableWithoutFeedback>
+							
 						</MovieCard>
 					)
 				})}

@@ -1,10 +1,11 @@
-import React from 'react'
+import React,{useState} from 'react'
 
-import { StatusBar, Dimensions } from 'react-native'
+import { StatusBar, Dimensions, } from 'react-native'
 
 import { LinearGradient } from 'expo-linear-gradient'
 
 import styled from 'styled-components/native'
+import {useSpring, animated, config} from 'react-spring'
 
 import Header from '../components/Header'
 import Hero from '../components/Hero'
@@ -30,8 +31,27 @@ const Poster = styled.ImageBackground`
 const Gradient = styled(LinearGradient)`
 	height: 100%;
 `
+const AnimatedPoster = animated(Poster);
 
 const Home = () => {
+	const props = useSpring({
+		delay:500,
+		to: {
+			opacity: 1,
+
+		},
+		from: {
+			opacity: 0,
+
+		}, 
+		config: {
+			duration:100,
+			friction: 1,
+			tension:500,
+			mass: 1
+		},
+	})
+
 	return (
 		<>
 			<StatusBar
@@ -40,7 +60,7 @@ const Home = () => {
 				barStyle='light-content'
 			/>
 			<Container>
-				<Poster source={require('../assets/poster.jpg')}>
+				<AnimatedPoster style={props} source={require('../assets/poster.jpg')}>
 					<Gradient
 						locations={[0, 0.2, 0.6, 0.93]}
 						colors={[
@@ -52,7 +72,7 @@ const Home = () => {
 						<Header />
 						<Hero />
 					</Gradient>
-				</Poster>
+				</AnimatedPoster>				
 				<Movies label='Recomendados' item={api} />
 				<Movies label='Top 10' item={api} />
 			</Container>
